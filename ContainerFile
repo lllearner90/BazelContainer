@@ -1,0 +1,27 @@
+FROM ubuntu:20.04
+
+LABEL MAINTAINER="Amardeep Shetty"
+
+# Arguments
+ARG BUILD_DIR
+
+# Set environment variables
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install dependencies
+RUN apt-get update \
+    && apt-get install -y \
+    curl \
+    unzip \
+    git \
+    && apt-get clean
+
+# Install Bazelisk
+RUN curl -Lo /usr/local/bin/bazel https://github.com/bazelbuild/bazelisk/releases/latest/download/bazelisk-linux-amd64 && \
+    chmod +x /usr/local/bin/bazel
+
+# Set working directory
+WORKDIR $BUILD_DIR
+
+# Run Bazel build
+RUN bazel version

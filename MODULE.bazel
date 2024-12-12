@@ -1,0 +1,4 @@
+module(
+    name = "my_project",
+    version = "1.0",
+)

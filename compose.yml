@@ -1,0 +1,31 @@
+services:
+  bazelisk:
+    image: bazelisk_img:0.1
+    container_name: bazelisk_env
+    build:
+      context: .
+      dockerfile: ContainerFile
+      args:
+          BUILD_DIR: /mnt/ws
+    # working_dir: /mnt/ws
+    stdin_open: true
+    tty: true
+    entrypoint: /bin/bash
+    volumes:
+      - ~/.bazelisk_cache:/root/.cache/bazelisk
+
+      - type: bind
+        source: ./
+        target: /mnt/ws
+
+      - type: bind
+        source: ${HOME}/.docker_bash_history
+        target: /root/.bash_history
+
+      - type: bind
+        source: ${HOME}/.docker_bashrc
+        target: /root/.bashrc
+
+      - ${HOME}/.gitconfig:/root/.gitconfig:ro
+      - ${HOME}/.ssh/config:/root/.ssh/config:ro
+      - /etc/localtime:/etc/localtime:ro
